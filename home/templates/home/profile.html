@@ -1,0 +1,53 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %}Login & Register{% endblock title %}
+{% block main %}
+
+
+
+	<!-- Start Banner Area -->
+	<section class="banner-area organic-breadcrumb">
+		<div class="container">
+			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+				<div class="col-first">
+					<h1>Profile Details</h1>
+					<nav class="d-flex align-items-center">
+						<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="category.html">Profile</a>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Banner Area -->
+
+	<!--================Login Box Area =================-->
+	<section class="login_box_area section_gap">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="login_box_img">
+						<img class="img-fluid" src="{% static 'home/img/login.jpg' %} " alt="">
+						<div class="hover">
+							<h4>PROFILE DETAILS</h4>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="ml-5 mb-5">
+					<h4>User Details</h4><br>
+						<ul>
+							<li>First Name : {{request.user.first_name}}</li>
+							<li>Last name : {{request.user.last_name}}</li>
+							<li>Username : {{request.user.username}}</li>
+							<li>Email Address (Not Editable) : {{request.user.email}}</li>
+						</ul><br><br>
+							<a class="primary-btn small" href="{% url 'edit_profile' %} ">Edit</a><br>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--================End Login Box Area =================-->
+{% endblock main %}
+

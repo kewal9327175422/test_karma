@@ -1,0 +1,190 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %}Cart{% endblock title %}
+{% block main %}
+
+    <!-- Start Banner Area -->
+    <section class="banner-area organic-breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                <div class="col-first">
+                    <h1>Shopping Cart</h1>
+                    <nav class="d-flex align-items-center">
+                        <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+                        <a href="category.html">Cart</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Banner Area -->
+
+    <!--================Cart Area =================-->
+    <section class="cart_area">
+        <div class="container">
+            <div class="cart_inner">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Product</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% if product %}
+                        {% for data in product %}
+                            <tr>
+                                <td><a href="{% url 'delete_cart' data.id %}" class="btn-sm gray_btn">Delete</a></td>
+
+                                <td>
+                                    <div class="media">
+                                        <div class="d-flex">
+                                            <img src="{{data.product.photo1.url}}" alt="NO IMAGE" style="width: 160px; height: 140px;">
+                                        </div>
+                                        <div class="media-body">
+                                            <p>{{data.product.title|capfirst}} | {{data.product.brand|capfirst}}</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <h5>${{data.product.d_price}}</h5>
+                                </td>
+                                <td>
+                                    <div class="product_count">
+                                        <input type="text" name="qty" id="qty{{data.id}}" maxlength="12" value="{{data.qty}}" title="Quantity:" class="input-text qty">
+                                        <button class="increase items-count plus" type="button" pid="{{data.id}}" ><i class="lnr lnr-chevron-up"></i></button>
+                                        <button class="reduced items-count minus" type="button" pid="{{data.id}}" ><i class="lnr lnr-chevron-down"></i></button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <h5>$<span id="id_total{{data.id}}">{{data.get_total}}</span> </h5>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                            
+                            <tr class="bottom_button">
+                                <td>
+                                    <a class="gray_btn" href="#">Update Cart</a>
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+                                    <div class="cupon_text d-flex align-items-center">
+                                        <input type="text" placeholder="Coupon Code">
+                                        <a class="primary-btn" href="#">Apply</a>
+                                        <a class="gray_btn" href="#">Coupon</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <h5>Subtotal</h5>
+                                </td>
+                                <td>
+                                    <h5>$<span id="id_subtotal">{{subtotal}}</span></h5>
+                                </td>
+                            </tr>
+                            <tr class="shipping_area">
+                                <td></td>
+                                <td></td>
+                                </td>
+                                <td>
+                                    <h5>GST 18% </h5>
+                                </td>
+                                <td>
+                                    <h5>$<span id="id_tax">{{tax}}</span> </h5>
+                                </td>
+                            </tr>
+                            <tr class="shipping_area">
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <h5>Net Total</h5>
+                                </td>
+                                <td>
+                                    <h5>$<span id="id_nettotal">{{net_total}}</span> </h5>
+                                </td>
+                            </tr>
+                            <tr class="out_button_area">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div class="checkout_btn_inner d-flex align-items-center">
+                                        <a class="gray_btn" href="#">Continue Shopping</a>
+                                        <a class="primary-btn" href="{% url 'checkout' %} ">Checkout</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        {% else %}
+                        <tbody>
+                            <tr>
+                                <td class="text-center" colspan="4" ><h3> Not Carted Anything Yet...</h3></td>    
+                            </tr>
+                        </tbody>
+                        {% endif %}
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================End Cart Area =================-->
+{% endblock main %}
+
+{% block ajax %}
+<script>
+    $(document).on("click", ".plus", function () {
+        var id = $(this).attr("pid");
+        mydata = {sid:id}
+        $.ajax({
+            type : "GET",
+            url : "{% url 'plusqty' %}",
+            data : mydata,
+            success : function(data){
+                if (data.status == 1){
+                    $("#qty"+id).val(data.qty);  
+                    $("#id_total"+id).text(data.total);  
+                    $("#id_subtotal").text(data.subtotal);  
+                    $("#id_tax").text(data.tax);  
+                    $("#id_nettotal").text(data.net_total);  
+                } else {
+                    alert("Connection Problem...");
+                }
+            }
+        });
+    });
+	
+    $(document).on("click", ".minus", function () {
+        var id = $(this).attr("pid");
+        mydata = {sid:id}
+        $.ajax({
+            method : "GET",
+            url : "{% url 'minusqty' %}",
+            data : mydata,
+            success : function(data){
+                if (data.status == 1){
+                    $("#qty"+id).val(data.qty);  
+                    $("#id_total"+id).text(data.total);  
+                    $("#id_subtotal").text(data.subtotal);  
+                    $("#id_tax").text(data.tax);  
+                    $("#id_nettotal").text(data.net_total);  
+                } else {
+                    alert("Connection Problem...");
+                }
+            }
+        });
+    });
+    
+</script>
+{% endblock ajax %}
