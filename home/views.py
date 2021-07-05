@@ -57,11 +57,11 @@ class Category (ListView):
     b2 = len(Product.objects.filter(brand='No 2 brand'))
     b3 = len(Product.objects.filter(brand='No 3 brand'))
     if cat == '1':
-      data = Product.objects.filter(brand= 'No 1 brand')
+      data = Product.objects.filter(brand= 'No. 1 brand')
     elif cat == '2':
-      data = Product.objects.filter(brand= 'No 2 brand')
+      data = Product.objects.filter(brand= 'No. 2 brand')
     elif cat == '3':
-      data = Product.objects.filter(brand= 'No 3 brand')
+      data = Product.objects.filter(brand= 'No. 3 brand')
     else:
       data = Product.objects.filter(catagory=cat)
     

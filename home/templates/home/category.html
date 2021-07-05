@@ -29,7 +29,7 @@
 						<a href="{% url 'category' 'M' %} " ><span class="lnr lnr-arrow-right"></span>Man Footwear<span class="number">({{count_m}})</span></a>
 						</li>
 						<li class="main-nav-list">
-						<a href="{% url 'category' 'W' %} " ><span class="lnr lnr-arrow-right"></span>Man Footwear<span class="number">({{count_w}})</span></a>
+						<a href="{% url 'category' 'W' %} " ><span class="lnr lnr-arrow-right"></span>Woman Footwear<span class="number">({{count_w}})</span></a>
 						</li>
 					</ul>
 				</div>
@@ -125,9 +125,9 @@
 									</div>
 								</a>
 									<div class="prd-bottom">
-										<a href="" class="social-info">
-											<span class="ti-bag"></span>
-											<p class="hover-text">add to bag</p>
+										<a class="social-info cart_btn" data-id="{{data.id}}">
+										<span class="ti-bag"></span>
+										<p class="hover-text">add to bag</p>
 										</a>
 										<a href="" class="social-info">
 											<span class="lnr lnr-heart"></span>
