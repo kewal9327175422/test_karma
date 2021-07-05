@@ -209,8 +209,8 @@ class Checkout(View):
         x.delete()
         subject = 'Order Details'
         msg = 'Products is not in Stock...'
-        from_mail = 'kewal@gmail.com'
-        to_mail = ['keval.123456@gmail.com']
+        from_mail = 'admin@gmail.com'
+        to_mail = [request.user.email]
       
         send_mail(subject, msg, from_mail, to_mail, fail_silently=False)
       else:
@@ -224,8 +224,8 @@ class Checkout(View):
         
         subject = 'Order Details'
         msg = f'{available} is ready to dispatch, {not_available} is not in Stock...'
-        from_mail = 'kewal@gmail.com'
-        to_mail = ['keval.123456@gmail.com']
+        from_mail = 'admin@gmail.com'
+        to_mail = [request.user.email]
       
         send_mail(subject, msg, from_mail, to_mail, fail_silently=False)
       
