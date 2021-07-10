@@ -288,7 +288,10 @@ class Registration(View):
 
 @method_decorator(login_required, name='dispatch')
 class DeleteCart(View):
-  def get(self, request, id):
+  def get(self, request):
+    id = request.GET.get('sid')
     x = Cart.objects.get(pk=id)
     x.delete()
-    return redirect ('/cart/')
+    product = Cart.objects.filter(user=request.user)
+    subtotal, tax, net_total = tally(product)
+    return JsonResponse(dict(status=1, subtotal=subtotal, tax=tax, net_total=net_total))

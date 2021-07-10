@@ -36,8 +36,8 @@
                         <tbody>
                         {% if product %}
                         {% for data in product %}
-                            <tr>
-                                <td><a href="{% url 'delete_cart' data.id %}" class="btn-sm gray_btn">Delete</a></td>
+                            <tr id="id{{data.id}}">
+                                <td><a class="btn-sm gray_btn delete_cart" pid="{{data.id}}">Delete</a></td>
 
                                 <td>
                                     <div class="media">
@@ -158,6 +158,27 @@
                     $("#id_subtotal").text(data.subtotal);  
                     $("#id_tax").text(data.tax);  
                     $("#id_nettotal").text(data.net_total);  
+                } else {
+                    alert("Connection Problem...");
+                }
+            }
+        });
+    });
+    
+    $(document).on("click", ".delete_cart", function () {
+        var id = $(this).attr("pid");
+        mydata = {sid:id}
+        $.ajax({
+            type : "GET",
+            url : "{% url 'delete_cart' %}",
+            data : mydata,
+            success : function(data){
+                if (data.status == 1){
+                    $("#id"+id).fadeOut();
+                    $("#id_subtotal").text(data.subtotal);
+                    $("#id_tax").text(data.tax);
+                    $("#id_nettotal").text(data.net_total);
+
                 } else {
                     alert("Connection Problem...");
                 }

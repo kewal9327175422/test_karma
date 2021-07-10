@@ -19,6 +19,6 @@ urlpatterns = [
   path('confirmation/', views.Confirmation.as_view(), name='confirmation'),
   path('plusqty/', views.plusqty, name='plusqty'),
   path('minusqty/', views.minusqty, name='minusqty'),
-  path('delete/<int:id>/', views.DeleteCart.as_view(), name='delete_cart'),
+  path('delete/', views.DeleteCart.as_view(), name='delete_cart'),
 
 ]
